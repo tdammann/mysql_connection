@@ -3,6 +3,7 @@
   derived_table:
     sql: |
       SELECT * FROM orders
+      WHERE {% condition status %} orders.status {% endcondition %}
     persist_for: 10 minutes
     indexes: [count, id, status]
 
@@ -15,9 +16,9 @@
     type: number
     sql: ${TABLE}.id
 
-  - dimension: status
-    type: string
-    sql: ${TABLE}.status
+#  - dimension: status
+#    type: string
+#    sql: ${TABLE}.status
 
   - dimension: user_id
     type: number
@@ -30,6 +31,12 @@
   - dimension_group: created_at
     type: time
     sql: ${TABLE}.created_at
+    
+  - filter: status
+    type: string
+    suggestions: [Complete, Pending, Cancelled]
+    
+  
 
   sets:
     detail:
