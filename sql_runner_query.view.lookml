@@ -5,7 +5,7 @@
       SELECT * FROM orders
       WHERE {% condition status %} orders.status {% endcondition %}
     persist_for: 10 minutes
-    indexes: [count, id, status]
+    indexes: [count, id]
 
   fields:
   - measure: count
