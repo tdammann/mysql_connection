@@ -4,6 +4,7 @@
     sql: |
       SELECT * FROM orders
     persist_for: 10 minutes
+    indexes: [count, id, status]
 
   fields:
   - measure: count
