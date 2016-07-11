@@ -3,6 +3,7 @@
   derived_table:
     sql: |
       SELECT * FROM orders
+    persist_for: 10 minutes
 
   fields:
   - measure: count
