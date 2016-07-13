@@ -3,8 +3,10 @@
   derived_table:
     sql: |
       SELECT * FROM orders
-      WHERE {% condition status %} orders.status {% endcondition %}
-    persist_for: 10 minutes
+      WHERE order_amount > 1
+      AND {% condition status %} orders.status {% endcondition %}
+
+    persist_for: 10 minutes  
     indexes: [count, id]
 
   fields:
