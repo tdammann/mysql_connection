@@ -39,8 +39,11 @@
   extension: required
   from: orders
   view: orders
-  fields: [] # start with no fields for safety
+  fields: [id] # start with no fields for safety
 
 - explore: orders_marketing
   extends: orders_base
-  # fields: [orders.order_amount*]
+  fields: [orders.detail*]
+  
+  
+  

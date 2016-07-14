@@ -16,9 +16,9 @@
     type: number
     sql: ${TABLE}.order_amount
 
-  - dimension: status
-    type: string
-    sql: ${TABLE}.status
+#  - dimension: status
+#    type: string
+#    sql: ${TABLE}.status
 
   - dimension: user_id
     type: number
@@ -27,5 +27,11 @@
 
   - measure: count
     type: count
-    drill_fields: [id, users.name, users.id, order_items.count]
+    drill_fields: [users.name, users.id, order_items.count]
 
+  sets:
+    detail:
+      - id
+      - order_amount
+      - user_id
+      - created
