@@ -35,5 +35,12 @@
 
 - explore: sql_runner_query
 
+- explore: orders_base
+  extension: required
+  from: orders
+  view: orders
+  fields: [] # start with no fields for safety
 
-
+- explore: orders_marketing
+  extends: orders_base
+  # fields: [orders.order_amount*]
