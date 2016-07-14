@@ -23,6 +23,7 @@
       relationship: many_to_one
 
 
+
 - explore: orders
   joins:
     - join: users
@@ -36,14 +37,17 @@
 - explore: sql_runner_query
 
 - explore: orders_base
-  extension: required
+  # extension: required
   from: orders
-  view: orders
-  fields: [id] # start with no fields for safety
+  # view: orders_base
+  fields: [user_id, id] # start with no fields for safety
+  
+  
+  
 
-- explore: orders_marketing
-  extends: orders_base
-  fields: [orders.detail*]
-  
-  
-  
+#- explore: orders_marketing
+#  extends: orders_base
+#  fields: [id]
+
+
+
