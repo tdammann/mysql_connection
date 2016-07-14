@@ -7,6 +7,3 @@
 
   elements:
 
-  - name: foo
-    type: text
-    title_text: "pizza"
