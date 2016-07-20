@@ -8,9 +8,15 @@
     sql: ${TABLE}.id
 
   - dimension_group: created
+    description: "Hallo there"
     type: time
     timeframes: [time, date, week, month]
     sql: ${TABLE}.created_at
+
+  - dimension: special_date_calculation
+    description: "Woop different"
+    sql: QUARTER(${TABLE}.created_date)
+    group_label: 'Created Date'
 
   - dimension: order_amount
     type: number

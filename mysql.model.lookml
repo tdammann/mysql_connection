@@ -36,18 +36,22 @@
 
 - explore: sql_runner_query
 
+
+
+
+
 - explore: orders_base
-  # extension: required
+  extension: required
   from: orders
-  # view: orders_base
-  fields: [user_id, id] # start with no fields for safety
+  view: orders_base
+  fields: [orders_base.user_id, orders_base.id] # start with no fields for safety
   
   
   
 
 #- explore: orders_marketing
 #  extends: orders_base
-#  fields: [id]
+#  fields: [orders_base.id, orders_base.created_time, SUPER*]
 
 
 
