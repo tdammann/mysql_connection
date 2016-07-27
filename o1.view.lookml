@@ -1,6 +1,6 @@
-#- base_view: o1
-#  always_filter:
-#    o1.event_date: 2012-01
+- explore: o1
+  always_filter:
+    o1.event_date: 2012-01
 
 - view: o1
   derived_table:
@@ -21,62 +21,68 @@
 
   # return the row if the user bought anything during the filtered historical timeframe
   #  for example, show me orders in 2012 where the customer bought something during 2011
-#  - filter: user_bought_during
-##    type: date
-#    sql: |
-#      EXISTS ( 
-#        SELECT *
-#        FROM orders o
-#        WHERE o.user_id = {{_table}}.user_id
-#        AND {% condition %} o.created_at {% endcondition %}
-#      )
-#
-#  - measure: count
-#    type: count
- #   
- # - dimension: user_id
- #   type: number
-#*/
+  - filter: user_bought_during
+    type: date
+    sql: |
+      EXISTS ( 
+        SELECT *
+        FROM orders o
+        WHERE o.user_id = {{_table}}.user_id
+        AND {% condition %} o.created_at {% endcondition %}
+      )
 
-# # You can specify the table name if it's different from the view name:
-#   sql_table_name: my_schema_name.o1
-#
-#  fields:
-# #     Define your dimensions and measures here, like this:
-#     - dimension: id
-#       type: number
-#       sql: ${TABLE}.id
-#
-#     - dimension: created
-#       type: time
-#       timeframes: [date, week, month, year]
-#       sql: ${TABLE}.created_at
-#
-#     - measure: count
-#       type: count
+  - measure: count
+    type: count
+    
+  - dimension: user_id
+    type: number
 
 
-# # Or, you could make this view a derived table, like this:
-#   derived_table:
-#     sql: |
-#       SELECT
-#         user_id as user_id
-#         , COUNT(*) as lifetime_orders
-#         , MAX(orders.created_at) as most_recent_purchase_at
-#       FROM orders
-#       GROUP BY user_id
-#
-#  fields:
-# #     Define your dimensions and measures here, like this:
-#     - dimension: lifetime_orders
-#       type: number
-#       sql: ${TABLE}.lifetime_orders
-#
-#     - dimension: most_recent_purchase
-#       type: time
-#       timeframes: [date, week, month, year]
-#       sql: ${TABLE}.most_recent_purchase_at
-#
-#     - measure: total_lifetime_orders
-#       type: sum
-#       sql: ${lifetime_orders}
+
+# persistent extend of o1
+- explore: persistent_o1
+
+- view: persistent_o1
+  derived_table:
+    sql: |
+      SELECT * FROM ${o1.SQL_TABLE_NAME}
+      
+    persist_for: 10 minutes
+    indexes: [filter_id]
+
+
+# other test
+
+- explore: test_dt
+  always_filter: 
+    test_dt.this_status: "Complete"
+
+- view: test_dt
+  derived_table:
+    sql: |
+      SELECT * FROM orders
+      WHERE {% condition this_status %} orders.status {% endcondition %}
+
+    # persist_for: 10 minutes
+
+  fields:
+  - dimension: count
+    type: number
+    sql: ${TABLE}.`COUNT(*)`
+    
+  - filter: this_status
+    type: string
+    suggestions: [Complete, Pending, Cancelled]
+    
+      
+- explore: test_dt_extended
+    
+- view: test_dt_extended
+  derived_table:
+    sql: |
+      SELECT * FROM ${test_dt.SQL_TABLE_NAME}
+    persist_for: 10 minutes
+    indexes: [count]
+      
+
+
