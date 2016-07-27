@@ -6,7 +6,7 @@
       WHERE order_amount > 1
       AND {% condition status %} orders.status {% endcondition %}
 
-    persist_for: 10 minutes  
+    # persist_for: 10 minutes
     indexes: [count, id]
 
   fields:
@@ -17,7 +17,7 @@
   - dimension: id
     type: number
     sql: ${TABLE}.id
-
+    
 #  - dimension: status
 #    type: string
 #    sql: ${TABLE}.status
@@ -38,8 +38,7 @@
     type: string
     suggestions: [Complete, Pending, Cancelled]
     
-  
-
+    
   sets:
     detail:
       - id
@@ -47,6 +46,7 @@
       - user_id
       - order_amount
       - created_at_time
+
       
-      
-      
+  
+  

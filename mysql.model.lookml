@@ -36,17 +36,17 @@
 
 - explore: sql_runner_query
 
-
-
-
-
 - explore: orders_base
   extension: required
   from: orders
   view: orders_base
   fields: [orders_base.user_id, orders_base.id] # start with no fields for safety
   
+- explore: test_dt
+  always_filter: 
+    test_dt.this_status: 'Complete'
   
+- explore: test_dt_extended
   
 
 #- explore: orders_marketing
