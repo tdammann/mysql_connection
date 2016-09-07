@@ -10,8 +10,10 @@
       WHERE
         {% condition filter_id %} o.user_id {% endcondition %}
         AND {% condition event_date %} o.created_at {% endcondition %}
+        
 
-
+  
+  
   fields:
   - filter: filter_id
     type: number
@@ -45,10 +47,11 @@
 - view: persistent_o1
   derived_table:
     sql: |
-      SELECT * FROM ${o1.SQL_TABLE_NAME}
+      SELECT * FROM ${o1.SQL_TABLE_NAME} as o
+      WHERE {% condition counttho %} ${o1.SQL_TABLE_NAME}.user_id {% endcondition %}
       
     persist_for: 10 minutes
-    indexes: [filter_id]
+    indexes: [user_id]
 
 
 # other test
@@ -80,7 +83,7 @@
 - view: test_dt_extended
   derived_table:
     sql: |
-      SELECT * FROM ${test_dt.SQL_TABLE_NAME}
+      SELECT * FROM ${test_dt.SQL_TABLE_NAME} as testDt
     persist_for: 10 minutes
     indexes: [count]
       
